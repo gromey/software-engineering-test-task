@@ -1,18 +1,22 @@
 include .env
+export $(shell sed 's/=.*//' .env)
 
 DB_DRIVER=postgres
 DB_STRING="host=${POSTGRES_HOST} port=${POSTGRES_PORT} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB} sslmode=disable"
 
-migrate-up:
+install-goose:
+	which goose || go install github.com/pressly/goose/v3/cmd/goose@latest
+
+migrate-up: install-goose
 	goose -dir ./migrations $(DB_DRIVER) $(DB_STRING) up
 
-migrate-down:
+migrate-down: install-goose
 	goose -dir ./migrations $(DB_DRIVER) $(DB_STRING) down
 
-migrate-status:
+migrate-status: install-goose
 	goose -dir ./migrations $(DB_DRIVER) $(DB_STRING) status
 
-migrate-reset:
+migrate-reset: install-goose
 	goose -dir ./migrations $(DB_DRIVER) $(DB_STRING) reset
 
 lint:
@@ -33,24 +37,24 @@ coverage-html:
 validate: lint security test
 
 run:
-	go run cmd/api/v1/main.go
+	go run cmd/main.go
 
 db:
-	docker-compose up -d db
+	docker compose up -d db
 
 up:
-	docker-compose up --build
+	docker compose up --build
 
 down:
-	docker-compose down
+	docker compose down
 
 restart:
-	docker-compose down
-	docker-compose up --build
+	docker compose down
+	docker compose up --build
 
 create-migration:
 	@read -p "Enter migration name: " name; \
 	goose -dir ./migrations create $$name sql
 
 swagger:
-	swag init -g ./cmd/api/v1/main.go -o ./docs
+	swag init -g ./cmd/main.go -o ./docs

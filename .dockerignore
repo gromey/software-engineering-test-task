@@ -1,0 +1,6 @@
+.git
+.github
+migrations
+platform
+postgres_data
+.env.example
