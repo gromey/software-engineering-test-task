@@ -18,9 +18,7 @@ func (l *LogLevel) SetENV() ([]byte, error) {
 }
 
 func SetLogger(level LogLevel) {
-	var handler slog.Handler
-
-	handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource:   level.level <= slog.LevelDebug,
 		Level:       level.level,
 		ReplaceAttr: replaceAttr,
