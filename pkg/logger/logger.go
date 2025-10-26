@@ -10,6 +10,9 @@ type LogLevel struct {
 }
 
 func (l *LogLevel) GetENV(p []byte) error {
+	if len(p) == 0 {
+		return nil
+	}
 	return l.level.UnmarshalText(p)
 }
 

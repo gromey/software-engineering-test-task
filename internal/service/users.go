@@ -13,8 +13,8 @@ type UserService interface {
 	GetByUsername(ctx context.Context, username string) (*model.User, error)
 	GetByID(ctx context.Context, id int64) (*model.User, error)
 	Post(ctx context.Context, user *model.User) (int64, error)
-	PatchByID(ctx context.Context, user *model.User) error
-	DeleteByID(ctx context.Context, id int64) error
+	Patch(ctx context.Context, user *model.User) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type userService struct {
@@ -50,19 +50,19 @@ func (s *userService) Post(ctx context.Context, user *model.User) (int64, error)
 	return s.repo.Post(ctx, user)
 }
 
-func (s *userService) PatchByID(ctx context.Context, user *model.User) error {
+func (s *userService) Patch(ctx context.Context, user *model.User) error {
 	if err := validation.ValidateID(user.ID); err != nil {
 		return err
 	}
 	if err := validation.ValidateUser(user); err != nil {
 		return err
 	}
-	return s.repo.PatchByID(ctx, user)
+	return s.repo.Patch(ctx, user)
 }
 
-func (s *userService) DeleteByID(ctx context.Context, id int64) error {
+func (s *userService) Delete(ctx context.Context, id int64) error {
 	if err := validation.ValidateID(id); err != nil {
 		return err
 	}
-	return s.repo.DeleteByID(ctx, id)
+	return s.repo.Delete(ctx, id)
 }
