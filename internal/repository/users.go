@@ -14,8 +14,8 @@ type UserRepository interface {
 	GetByUsername(ctx context.Context, username string) (*model.User, error)
 	GetByID(ctx context.Context, id int64) (*model.User, error)
 	Post(ctx context.Context, user *model.User) (int64, error)
-	PatchByID(ctx context.Context, user *model.User) error
-	DeleteByID(ctx context.Context, id int64) error
+	Patch(ctx context.Context, user *model.User) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type userRepository struct {
@@ -90,16 +90,16 @@ func (r *userRepository) Post(ctx context.Context, user *model.User) (int64, err
 	return id, nil
 }
 
-const patchByIdStm = `UPDATE users SET username = $1, email = $2, full_name = $3 WHERE id = $4`
+const patchStm = `UPDATE users SET username = $1, email = $2, full_name = $3 WHERE id = $4`
 
-func (r *userRepository) PatchByID(ctx context.Context, user *model.User) error {
-	_, err := r.db.ExecContext(ctx, patchByIdStm, user.Username, user.Email, user.FullName, user.ID)
+func (r *userRepository) Patch(ctx context.Context, user *model.User) error {
+	_, err := r.db.ExecContext(ctx, patchStm, user.Username, user.Email, user.FullName, user.ID)
 	return err
 }
 
-const deleteByIdStm = `DELETE FROM users WHERE id = $1`
+const deleteStm = `DELETE FROM users WHERE id = $1`
 
-func (r *userRepository) DeleteByID(ctx context.Context, id int64) error {
-	_, err := r.db.ExecContext(ctx, deleteByIdStm, id)
+func (r *userRepository) Delete(ctx context.Context, id int64) error {
+	_, err := r.db.ExecContext(ctx, deleteStm, id)
 	return err
 }

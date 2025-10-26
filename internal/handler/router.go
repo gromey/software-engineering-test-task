@@ -16,8 +16,8 @@ func New(router *gin.Engine, apiKey string, userController *controller.UserContr
 			userGroup.GET("/username/:username", userController.GetUserByUsername)
 			userGroup.GET("/id/:id", userController.GetUserByID)
 			userGroup.POST("/", userController.PostUser)
-			userGroup.PATCH("/:id", userController.PatchUserByID)
-			userGroup.DELETE("/:id", userController.DeleteUserByID)
+			userGroup.PATCH("/:id", userController.PatchUser)
+			userGroup.DELETE("/:id", userController.DeleteUser)
 		}
 	}
 	return router

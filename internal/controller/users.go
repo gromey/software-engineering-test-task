@@ -76,7 +76,7 @@ func (c *UserController) PostUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"id": id})
 }
 
-func (c *UserController) PatchUserByID(ctx *gin.Context) {
+func (c *UserController) PatchUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
@@ -98,15 +98,15 @@ func (c *UserController) PatchUserByID(ctx *gin.Context) {
 	// Avoid changing the id if it's included in the body and has a different value
 	user.ID = id
 
-	if err = c.service.PatchByID(ctx, user); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err = c.service.Patch(ctx, user); err != nil {
+		ctx.JSON(code(err), gin.H{"error": err.Error()})
 		return
 	}
 
 	ctx.Status(http.StatusNoContent)
 }
 
-func (c *UserController) DeleteUserByID(ctx *gin.Context) {
+func (c *UserController) DeleteUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
@@ -114,7 +114,7 @@ func (c *UserController) DeleteUserByID(ctx *gin.Context) {
 		return
 	}
 
-	if err = c.service.DeleteByID(ctx, id); err != nil {
+	if err = c.service.Delete(ctx, id); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
