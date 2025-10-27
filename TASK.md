@@ -98,4 +98,13 @@ Write CD pipeline via Github Actions to deploy the changes to remote environment
 
 ## Comments
 
-Comments section for candidate
+I completed all the required parts of the task, including debugging the application startup, adding validation to the service layer,
+implementing CRUD endpoints, writing functional tests, creating a Dockerfile, and setting up a simple CI workflow.
+
+For the bonus part (Terraform, Kubernetes, and CD deployment), I wasn’t able to finish it.
+I haven't worked with Terraform before, but I wanted to give it a try.
+I chose Oracle Cloud because it provides a free tier account, and I managed to provision an OKE (Oracle Kubernetes Engine) cluster successfully.
+However, I couldn’t get the application itself deployed to the cluster yet — it would require more time to learn and configure properly.
+
+Even though I didn’t complete this part, the process helped me understand how Terraform and Kubernetes work together,
+and I’m interested in continuing to learn these tools in future projects.
